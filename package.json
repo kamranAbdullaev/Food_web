@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/verysladkiy/Food_web/issues"
   },
-  "homepage": "https://github.com/verysladkiy/Food_web#readme"
+  "homepage": "https://github.com/verysladkiy/Food_web#readme",
+  "devDependencies": {
+    "json-server": "^0.17.0"
+  }
 }
