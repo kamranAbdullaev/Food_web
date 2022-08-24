@@ -411,13 +411,13 @@ window.addEventListener('DOMContentLoaded', function () {
   }
 
   modal.addEventListener('click', (e) => {
-    if (e.target === modal || e.target.getAttribute('data-close') == '') {
+    if (e.target === modal || e.target.getAttribute('data-close') == '') {  // метод getAttribute() объекта Element возвращает значение указанного атрибута элемента. Если данный атрибут не существует у указанного элемента, то возвращаемое значение будет соответствовать значению null
       closeModal();
     }
   });
 
   document.addEventListener('keydown', (e) => {
-    if (e.code === "Escape" && modal.classList.contains('show')) {
+    if (e.code === "Escape" && modal.classList.contains('show')) { // contains(); - возвращает boolean значение если есть то true иначе false
       closeModal();
     }
   });
@@ -449,10 +449,10 @@ window.addEventListener('DOMContentLoaded', function () {
     }
 
     changeToUAH() {
-      this.price = this.price * this.transfer;
+      this.price = this.price * this.transfer; // this — это ключевое слово в JavaScript которое содержит в себе объект (контекст) выполняемого кода
     }
 
-    render() {
+    render() { // render-функции представляют собой странную смесь из HTML и JavaScript, которую часто сложно бывает читать
       const element = document.createElement('div');
 
       if (this.classes.length === 0) {
@@ -513,12 +513,21 @@ window.addEventListener('DOMContentLoaded', function () {
   };
 
   forms.forEach(item => {
-    postData(item);
+    bindPostData(item);
   });
 
-  function postData(form) {
+  const postData = async (url, data) => { // async - Оператор async определяет асинхронную функцию, в которой, как предполагается, будет выполняться одна или несколько асинхронных задач.
+    const res = await fetch(url, { // await - Оператор await используется для ожидания окончания Promise. Может быть использован только внутри async function!
+      method: 'POST',
+      headers: { 'Content-type': 'application/json' },
+      body: data
+    });
+    return await res.json();
+  };
+
+  function bindPostData(form) {
     form.addEventListener('submit', (e) => {
-      e.preventDefault();
+      e.preventDefault(); // Метод event.preventDefault позволяет отменить действия браузера по умолчанию. Например, сделать так, чтобы при клике по ссылке перехода на другую страницу не было или по нажатию на кнопку форма не отправлялась на сервер
 
       let statusMessage = document.createElement('img');
       statusMessage.src = message.loading;
@@ -545,11 +554,15 @@ window.addEventListener('DOMContentLoaded', function () {
       });
       // const json = JSON.stringify(object);
 
-      fetch('server.php', {
-        method: 'POST',
-        headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify(object)
-      }).then(data => data.text())
+      // fetch('server.php', { //  Старый fetch запрос асинхронный
+      //   method: 'POST',
+      //   headers: { 'Content-type': 'application/json' },
+      //   body: JSON.stringify(object)
+      // });
+
+      postData('http://localhost:3000/requests', JSON.stringify(object)) // Новый fetch запрос синхронный
+
+        // .then(data => data.text())
         .then(data => {
           console.log(data);
           showThanksModal(message.success);
@@ -617,7 +630,7 @@ window.addEventListener('DOMContentLoaded', function () {
   //   .then(text => console.log(text))
   //   .then(response => response.json());
 
-  fetch('db.json')
-  .then(data => data.json())
-  .then(res => console.log(res));
+  fetch('http://localhost:3000/menu')
+    .then(data => data.json())
+    .then(res => console.log(res));
 });
