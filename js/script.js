@@ -588,5 +588,6 @@ window.addEventListener('DOMContentLoaded', function () {
   fetch('https://jsonplaceholder.typicode.com/todos/1') // Вскобки помещаем url на который будем посылать запрос!
     .then(response => response.json()) // response - получаем какойто ответ в json формате. response.json() -  Этот метод парсит json формат и здесь она возвращает Promise
     .then(json => console.log(json)); //
+    console.log(2022-2004);
 
 });
