@@ -529,35 +529,48 @@ window.addEventListener('DOMContentLoaded', function () {
       `;
 
       form.insertAdjacentElement('afterend', statusMessage); //метод insertAdjacentElement () объекта Element позволяет вставить указанный узел элемента в заданную позицию относительно элемента, на котором он вызывается
-  /*     'beforebegin': перед самим элементом targetElement.
-'afterbegin': внутри элемента targetElement, перед его первым потомком.
-'beforeend': внутри элемента targetElement, после его последнего потомка.
-'afterend': после самого элемента targetElement. */
+      /*     'beforebegin': перед самим элементом targetElement.
+    'afterbegin': внутри элемента targetElement, перед его первым потомком.
+    'beforeend': внутри элемента targetElement, после его последнего потомка.
+    'afterend': после самого элемента targetElement. */
 
 
-      const request = new XMLHttpRequest();
-      request.open('POST', 'server.php');
-      request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+      // request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
       const formData = new FormData(form);
 
       const object = {};
       formData.forEach(function (value, key) {
         object[key] = value;
       });
-      const json = JSON.stringify(object);
+      // const json = JSON.stringify(object);
 
-      request.send(json);
-
-      request.addEventListener('load', () => {
-        if (request.status === 200) {
-          console.log(request.response);
+      fetch('server.php', {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify(object)
+      }).then(data => data.text())
+        .then(data => {
+          console.log(data);
           showThanksModal(message.success);
-          form.reset(); // Что бы все данные сбросились!!
           statusMessage.remove();
-        } else {
+        }).catch(() => {
           showThanksModal(message.failure);
-        }
-      });
+        }).finally(() => {
+          form.reset(); // Что бы все данные сбросились!!
+        });
+      // request.send(json);
+
+      // request.addEventListener('load', () => {
+      //   if (request.status === 200) {
+      // console.log(request.response);
+      // showThanksModal(message.success);
+      // form.reset(); // Что бы все данные сбросились!!
+      // statusMessage.remove();
+      //   } else {
+      //     showThanksModal(message.failure);
+      //   }
+      // });
     });
   }
 
@@ -568,7 +581,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     const thanksModal = document.createElement('div');
     thanksModal.classList.add('modal__dialog');
-    thanksModal.innerHTML =  `
+    thanksModal.innerHTML = `
   <div class = 'modal__content'>
   <div class='modal__close' data-close>x</div>
   <div class='modal__title'>${message}</div>
@@ -584,9 +597,23 @@ window.addEventListener('DOMContentLoaded', function () {
     }, 4000);
   }
 
+  /// Fetch Запросы!!!!
 
-  fetch('https://jsonplaceholder.typicode.com/todos/1') // Вскобки помещаем url на который будем посылать запрос!
-    .then(response => response.json()) // response - получаем какойто ответ в json формате. response.json() -  Этот метод парсит json формат и здесь она возвращает Promise
-    .then(json => console.log(json)); //
+  //   fetch('https://date.nager.at/api/v2/publicholidays/2020/US') //Fetch API предоставляет интерфейс JavaScript для работы с запросами и ответами HTTP. Он также предоставляет глобальный метод fetch (), который позволяет легко и логично получать ресурсы по сети асинхронно
+  //     .then(response => response.json()) // response - получение ответа. response.json - Получение в json формате!
+  //     .then(json => console.log(json));
+  //   fetch('https://api.wazirx.com/sapi/v1/tickers/24hr')
+  //     .then(response => response.json())
+  //     .then(json => console.log(json));
 
+
+  //   fetch('https://date.nager.at/api/v2/publicholidays/2020/US',{
+  //     method: 'POST',
+  //     body:JSON.stringify({name: 'Kamran'}),
+  //     headers: {
+  //       'Content-type': 'application/json'
+  //     }
+  //   })
+  //   .then(text => console.log(text))
+  //   .then(response => response.json());
 });
