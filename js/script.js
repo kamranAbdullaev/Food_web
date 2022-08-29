@@ -536,12 +536,23 @@ window.addEventListener('DOMContentLoaded', function () {
     bindPostData(item);
   });
 
-  const postData = async (url, data) => { // async - Оператор async определяет асинхронную функцию, в которой, как предполагается, будет выполняться одна или несколько асинхронных задач.
-    const res = await fetch(url, { // await - Оператор await используется для ожидания окончания Promise. Может быть использован только внутри async function!
-      method: 'POST',
-      headers: { 'Content-type': 'application/json' },
+  // const postData = async (url, data) => { // async - Оператор async определяет асинхронную функцию, в которой, как предполагается, будет выполняться одна или несколько асинхронных задач.
+  //   const res = await fetch(url, { // await - Оператор await используется для ожидания окончания Promise. Может быть использован только внутри async function!
+  //     method: 'POST',
+  //     headers: { 'Content-type': 'application/json' },
+  //     body: data
+  //   });
+  //   return await res.json();
+  // };
+  const postData = async (url, data) => {
+    let res = await fetch(url, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: data
     });
+
     return await res.json();
   };
 
@@ -747,9 +758,9 @@ window.addEventListener('DOMContentLoaded', function () {
 slider.append(indicators);
 
 for(let i = 0;  i<slides.length; i++) {
-  const dor = document.createElement('li');
+  const dot = document.createElement('li');
   dot.setAttribute('data-slide-to', i + 1); //.setAttribute('имя_атрибута', 'значение_атрибута') – устанавливает указанный атрибут с указанным значением элементу. Если указанный атрибут есть у элемента, то данный метод тогда просто изменит ему значение.
-  dot.style.cssText = `
+      dot.style.cssText = `
       box-sizing: content-box;
       flex: 0 1 auto;
       width: 30px;
