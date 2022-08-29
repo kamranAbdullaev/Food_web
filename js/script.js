@@ -657,7 +657,7 @@ window.addEventListener('DOMContentLoaded', function () {
   //   .then(text => console.log(text))
   //   .then(response => response.json());
 
-  // Слайдер------------------------------------------------------------------------- //
+  // Слайдер 1------------------------------------------------------------------------- //
 
   let slideIndex = 1;
   let offset = 0;
@@ -665,6 +665,7 @@ window.addEventListener('DOMContentLoaded', function () {
     prev = document.querySelector('.offer__slider-prev'),
     next = document.querySelector('.offer__slider-next'),
     total = document.querySelector('#total'),
+    slider = document.querySelector('.offer__slider'),
     current = document.querySelector('#current'),
     slidesWrapper = document.querySelector('.offer__slider-wrapper'),
     slidesField = document.querySelector('.offer__slider-inner'),
@@ -727,6 +728,11 @@ window.addEventListener('DOMContentLoaded', function () {
     slide.style.width = width;
   });
 
+  slider.style.position = 'relative';
+
+  const indicators = document.createElement('ol');
+  indicators.classList.add('carousel-indicators');
+
   next.addEventListener('click', function () {
     if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
       offset = 0;
@@ -767,6 +773,8 @@ window.addEventListener('DOMContentLoaded', function () {
       current.textContent = slideIndex;
     }
   });
+
+
 
 
 }); 
